@@ -18,54 +18,36 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Download original Fratres build
+      - name: Rebuild and verify original backup
         shell: bash
         run: |
           set -euo pipefail
-          BASE="https://fratres-sorriso-ferla.giuseppe-malignaggi1.chatgpt.site"
+          EXPECTED_SHA="1f46f89d2dd8f99e60ff0839c42290910653e0367fe0eb6d9423eab33dbd9dcc"
+          ARCHIVE="$RUNNER_TEMP/original-exact.tar.xz"
+          B64="$RUNNER_TEMP/original-exact.b64"
+          : > "$B64"
+          for n in $(seq -w 0 21); do
+            f=".sync-parts/part-$n"
+            test -s "$f" || { echo "Manca $f"; exit 1; }
+            tr -d '\r\n' < "$f" >> "$B64"
+          done
+          base64 --decode "$B64" > "$ARCHIVE"
+          echo "$EXPECTED_SHA  $ARCHIVE" | sha256sum --check -
+
+      - name: Extract verified original project
+        shell: bash
+        run: |
+          set -euo pipefail
           DEST="$RUNNER_TEMP/fratres-original"
-          mkdir -p "$DEST/assets" "$DEST/calendario/2026" "$DEST/servizio-civile"
-
-          fetch() {
-            local path="$1"
-            mkdir -p "$DEST/$(dirname "$path")"
-            echo "Scarico $path"
-            curl --fail --location --retry 3 --retry-delay 2 --silent --show-error \
-              "$BASE/$path" -o "$DEST/$path"
-          }
-
-          fetch index.html
-          fetch 404.html
-          fetch favicon.svg
-          fetch file.svg
-          fetch globe.svg
-          fetch window.svg
-          fetch logo-fratres-ufficiale.png
-          fetch 5x1000-fratres-ferla.png
-          fetch index.rsc
-          fetch calendario.rsc
-          fetch calendario/index.html
-          fetch calendario/2026.rsc
-          fetch calendario/2026/index.html
-          fetch servizio-civile.rsc
-          fetch servizio-civile/index.html
-          fetch assets/mobile-menu-Dt2jnFf4.js
-          fetch assets/rolldown-runtime-S-ySWqyJ.js
-          fetch assets/index-CMJVgfGU.js
-          fetch assets/layout-segment-context-CuMuco4v.js
-          fetch assets/framework-DjPHiq1u.js
-          fetch assets/link-DH5VLDie.js
-          fetch assets/router-U9ySUmEt.js
-          fetch assets/index-a2jCyAba.css
-          fetch assets/share-calendar-DU93GlwD.js
-          fetch assets/welcome-gate-Bc3ckKgR.js
-
+          mkdir -p "$DEST"
+          tar -xJf "$RUNNER_TEMP/original-exact.tar.xz" -C "$DEST"
           test -s "$DEST/index.html"
-          test -s "$DEST/logo-fratres-ufficiale.png"
+          test -s "$DEST/calendario/index.html"
           test -s "$DEST/calendario/2026/index.html"
           test -s "$DEST/servizio-civile/index.html"
+          test -s "$DEST/logo-fratres-ufficiale.png"
 
-      - name: Replace GitHub Pages files with original build
+      - name: Replace published files only after verification
         shell: bash
         run: |
           set -euo pipefail
@@ -87,5 +69,5 @@ jobs:
             echo "Il repository è già allineato."
             exit 0
           fi
-          git commit -m "Allinea GitHub al progetto Fratres originale"
+          git commit -m "Pubblica il progetto Fratres originale verificato"
           git push origin HEAD:main
