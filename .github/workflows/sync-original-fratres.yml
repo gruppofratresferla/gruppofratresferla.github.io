@@ -1,0 +1,91 @@
+name: Sync original Fratres site
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sync-original-fratres.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download original Fratres build
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE="https://fratres-sorriso-ferla.giuseppe-malignaggi1.chatgpt.site"
+          DEST="$RUNNER_TEMP/fratres-original"
+          mkdir -p "$DEST/assets" "$DEST/calendario/2026" "$DEST/servizio-civile"
+
+          fetch() {
+            local path="$1"
+            mkdir -p "$DEST/$(dirname "$path")"
+            echo "Scarico $path"
+            curl --fail --location --retry 3 --retry-delay 2 --silent --show-error \
+              "$BASE/$path" -o "$DEST/$path"
+          }
+
+          fetch index.html
+          fetch 404.html
+          fetch favicon.svg
+          fetch file.svg
+          fetch globe.svg
+          fetch window.svg
+          fetch logo-fratres-ufficiale.png
+          fetch 5x1000-fratres-ferla.png
+          fetch index.rsc
+          fetch calendario.rsc
+          fetch calendario/index.html
+          fetch calendario/2026.rsc
+          fetch calendario/2026/index.html
+          fetch servizio-civile.rsc
+          fetch servizio-civile/index.html
+          fetch assets/mobile-menu-Dt2jnFf4.js
+          fetch assets/rolldown-runtime-S-ySWqyJ.js
+          fetch assets/index-CMJVgfGU.js
+          fetch assets/layout-segment-context-CuMuco4v.js
+          fetch assets/framework-DjPHiq1u.js
+          fetch assets/link-DH5VLDie.js
+          fetch assets/router-U9ySUmEt.js
+          fetch assets/index-a2jCyAba.css
+          fetch assets/share-calendar-DU93GlwD.js
+          fetch assets/welcome-gate-Bc3ckKgR.js
+
+          test -s "$DEST/index.html"
+          test -s "$DEST/logo-fratres-ufficiale.png"
+          test -s "$DEST/calendario/2026/index.html"
+          test -s "$DEST/servizio-civile/index.html"
+
+      - name: Replace GitHub Pages files with original build
+        shell: bash
+        run: |
+          set -euo pipefail
+          DEST="$RUNNER_TEMP/fratres-original"
+          find . -mindepth 1 -maxdepth 1 \
+            ! -name '.git' \
+            ! -name '.github' \
+            -exec rm -rf {} +
+          cp -a "$DEST"/. .
+
+      - name: Commit synchronized project
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "Fratres Ferla Site Sync"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Il repository è già allineato."
+            exit 0
+          fi
+          git commit -m "Allinea GitHub al progetto Fratres originale"
+          git push origin HEAD:main
