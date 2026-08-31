@@ -84,3 +84,8 @@ if (!document.querySelector('#video')) {
     document.head.appendChild(videoStyles);
   }
 }
+
+// I collegamenti "Calendario" della homepage devono aprire la pagina dedicata.
+document.querySelectorAll('a[href="#calendario"]').forEach((link) => {
+  link.setAttribute('href', '/calendario/');
+});
