@@ -1,103 +1,162 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Sito ufficiale del Gruppo Fratres Sorriso di Ferla. Donazione sangue, calendario, Servizio Civile, contatti e iniziative.">
-  <title>Gruppo Fratres “Sorriso” di Ferla</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Gruppo Fratres Sorriso Ferla - Donatori di sangue" />
+  <title>Gruppo Fratres “Sorriso” Ferla</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="site-header">
-    <div class="container nav-wrap">
-      <a class="brand" href="#home" aria-label="Gruppo Fratres Sorriso di Ferla">
-        <span class="brand-mark">F</span>
-        <span><strong>Fratres</strong><small>“Sorriso” Ferla</small></span>
-      </a>
-      <nav class="nav" aria-label="Navigazione principale">
-        <a href="#home">Home</a>
-        <a href="#donazioni">Donazioni</a>
-        <a href="#servizio-civile">Servizio Civile</a>
-        <a href="#sostienici">Sostienici</a>
+  <div class="topbar">
+    <div class="container topbar-inner">
+      <span>❤️ Donare sangue è un gesto che salva vite</span>
+      <div class="topbar-links">
+        <a href="mailto:info@fratresferla.org">info@fratresferla.org</a>
         <a href="#contatti">Contatti</a>
+      </div>
+    </div>
+  </div>
+
+  <header class="site-header" id="home">
+    <div class="container nav-wrap">
+      <a class="brand" href="#home" aria-label="Home Fratres Sorriso Ferla">
+        <div class="brand-mark" aria-hidden="true">F</div>
+        <div class="brand-copy">
+          <strong>FRATRES</strong>
+          <span>Gruppo “Sorriso” Ferla</span>
+        </div>
+      </a>
+      <button class="menu-toggle" aria-label="Apri menu" aria-expanded="false">☰</button>
+      <nav class="main-nav">
+        <a href="#chi-siamo">Chi siamo</a>
+        <a href="#donare">Dona sangue</a>
+        <a href="#calendario">Calendario</a>
+        <a href="#news">News</a>
+        <a href="#contatti">Contatti</a>
+        <a class="nav-cta" href="#prenota">Prenota</a>
       </nav>
     </div>
   </header>
 
   <main>
-    <section id="home" class="hero">
-      <div class="container hero-grid">
+    <section class="hero">
+      <div class="hero-overlay"></div>
+      <div class="container hero-content">
+        <div class="hero-kicker">Gruppo Fratres “Sorriso” Ferla</div>
+        <h1>Il tuo sangue.<br><span>La vita di qualcuno.</span></h1>
+        <p>Un piccolo gesto, un valore immenso. Unisciti alla nostra comunità di donatori e aiutaci a costruire ogni giorno una Ferla più solidale.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#prenota">Prenota una donazione</a>
+          <a class="btn btn-light" href="#donare">Scopri come donare</a>
+        </div>
+        <div class="hero-badges">
+          <div><b>Volontaria</b><span>una scelta libera</span></div>
+          <div><b>Gratuita</b><span>un gesto solidale</span></div>
+          <div><b>Responsabile</b><span>un aiuto concreto</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="intro" id="chi-siamo">
+      <div class="container intro-grid">
         <div>
-          <p class="eyebrow">Gruppo Fratres “Sorriso” di Ferla</p>
-          <h1>Donare sangue significa donare vita.</h1>
-          <p class="lead">Informazioni, giornate di donazione, iniziative e servizi del Gruppo Fratres di Ferla in un unico spazio semplice e accessibile.</p>
-          <div class="actions">
-            <a class="btn primary" href="#donazioni">Calendario donazioni</a>
-            <a class="btn secondary" href="#contatti">Contattaci</a>
-          </div>
+          <div class="eyebrow">Chi siamo</div>
+          <h2>Una comunità che dona con il sorriso.</h2>
+          <p class="lead">Il Gruppo Fratres “Sorriso” Ferla promuove la cultura della donazione del sangue, la solidarietà e la partecipazione attiva nella nostra comunità.</p>
+          <p>La nostra missione è accompagnare i donatori, sensibilizzare i cittadini e collaborare con le strutture sanitarie per sostenere la disponibilità di sangue ed emocomponenti.</p>
+          <a class="text-link" href="#contatti">Conosci il nostro gruppo →</a>
         </div>
-        <aside class="hero-card" aria-label="Informazioni rapide">
-          <span class="badge">Sito in allestimento</span>
-          <h2>Fratres Ferla</h2>
-          <p>Stiamo preparando il nuovo sito ufficiale. Le sezioni verranno progressivamente completate con contenuti, documenti e calendari aggiornati.</p>
-        </aside>
+        <div class="quote-card">
+          <div class="drop">♥</div>
+          <h3>“Donare è un gesto di vita.”</h3>
+          <p>Ogni donazione può diventare una possibilità concreta per chi sta affrontando un momento difficile.</p>
+        </div>
       </div>
     </section>
 
-    <section id="donazioni" class="section">
+    <section class="donation-section" id="donare">
       <div class="container">
-        <p class="eyebrow">Donazioni</p>
-        <h2>Calendario e prenotazioni</h2>
-        <p class="section-intro">Qui saranno pubblicate le prossime giornate di donazione con indicazioni utili e accesso rapido alla prenotazione.</p>
-        <div class="cards">
-          <article class="card"><h3>Prossime date</h3><p>Calendario delle giornate di raccolta e degli appuntamenti del gruppo.</p></article>
-          <article class="card"><h3>Prenota</h3><p>Accesso semplice alla prenotazione e possibilità di aggiungere un promemoria al calendario.</p></article>
-          <article class="card"><h3>Prima di donare</h3><p>Indicazioni essenziali per prepararsi correttamente alla donazione.</p></article>
+        <div class="section-heading center">
+          <div class="eyebrow">Diventa donatore</div>
+          <h2>È più semplice di quanto pensi.</h2>
+          <p>Scopri i passaggi principali per avvicinarti alla donazione in modo consapevole e sicuro.</p>
+        </div>
+        <div class="steps-grid">
+          <article class="step-card"><span>01</span><h3>Contattaci</h3><p>Scrivici o chiamaci: ti daremo tutte le informazioni necessarie per iniziare.</p></article>
+          <article class="step-card"><span>02</span><h3>Valutazione</h3><p>Il personale sanitario verifica l’idoneità alla donazione secondo i criteri previsti.</p></article>
+          <article class="step-card"><span>03</span><h3>Dona</h3><p>Dedica una piccola parte del tuo tempo a un gesto di grande valore.</p></article>
+          <article class="step-card"><span>04</span><h3>Torna a donare</h3><p>La donazione periodica aiuta a mantenere costanti le scorte di sangue.</p></article>
+        </div>
+        <div class="info-strip">
+          <strong>Potenziale donatore?</strong>
+          <span>In generale: buona salute, età 18–65 anni e peso di almeno 50 kg. L’idoneità viene sempre valutata dal personale sanitario.</span>
         </div>
       </div>
     </section>
 
-    <section id="servizio-civile" class="section alt">
-      <div class="container">
-        <p class="eyebrow">Servizio Civile</p>
-        <h2>Bandi e graduatorie</h2>
-        <div class="cards two">
-          <article class="card"><h3>Presenta il bando</h3><p>Spazio dedicato ai bandi, ai requisiti e alle modalità di partecipazione.</p></article>
-          <article class="card"><h3>Graduatorie</h3><p>Pubblicazione ordinata delle graduatorie e dei documenti ufficiali disponibili.</p></article>
-        </div>
-      </div>
-    </section>
-
-    <section id="sostienici" class="section">
-      <div class="container">
-        <p class="eyebrow">Sostienici</p>
-        <h2>Aiuta il Gruppo Fratres</h2>
-        <div class="cards two">
-          <article class="card"><h3>Dona il 5×1000</h3><p>Informazioni per destinare il 5×1000 al Gruppo Fratres “Sorriso” di Ferla.</p></article>
-          <article class="card"><h3>Effettua una donazione</h3><p>Questa sezione ospiterà le modalità ufficiali per sostenere le attività associative.</p></article>
-        </div>
-      </div>
-    </section>
-
-    <section id="contatti" class="section alt">
-      <div class="container contact-box">
+    <section class="calendar-section" id="calendario">
+      <div class="container calendar-grid">
         <div>
-          <p class="eyebrow">Contatti</p>
-          <h2>Parla con noi</h2>
-          <p>Prepareremo qui i collegamenti ufficiali a email, WhatsApp e canali social del gruppo.</p>
+          <div class="eyebrow">Prossime giornate</div>
+          <h2>Calendario donazioni</h2>
+          <p>Uno spazio semplice per comunicare le prossime raccolte e permettere ai donatori di organizzarsi con anticipo.</p>
+          <a class="btn btn-outline" href="#prenota">Voglio partecipare</a>
         </div>
-        <a class="btn primary" href="mailto:">Scrivici</a>
+        <div class="events-list">
+          <article class="event-card featured">
+            <div class="event-date"><strong>14</strong><span>SET</span></div>
+            <div><small>Giornata di donazione</small><h3>Ferla · Raccolta sangue</h3><p>08:00 – 12:00 · sede da confermare</p></div>
+          </article>
+          <article class="event-card">
+            <div class="event-date"><strong>12</strong><span>OTT</span></div>
+            <div><small>Giornata di donazione</small><h3>Ferla · Raccolta sangue</h3><p>08:00 – 12:00 · sede da confermare</p></div>
+          </article>
+          <p class="demo-note">Date dimostrative: nella versione definitiva inseriremo il calendario reale.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="news-section" id="news">
+      <div class="container">
+        <div class="section-heading split">
+          <div><div class="eyebrow">Dal gruppo</div><h2>News e iniziative</h2></div>
+          <a class="text-link" href="#">Tutte le notizie →</a>
+        </div>
+        <div class="news-grid">
+          <article class="news-card"><div class="news-image image-one"><span>FRATRES FERLA</span></div><div class="news-body"><small>COMUNITÀ</small><h3>Una giornata dedicata alla solidarietà</h3><p>Raccontiamo le attività del gruppo, i volontari e le iniziative sul territorio.</p><a href="#">Leggi di più →</a></div></article>
+          <article class="news-card"><div class="news-image image-two"><span>DONA VITA</span></div><div class="news-body"><small>DONAZIONE</small><h3>Perché diventare donatore periodico</h3><p>Informazioni chiare per chi vuole iniziare a donare e fare la differenza.</p><a href="#">Leggi di più →</a></div></article>
+          <article class="news-card"><div class="news-image image-three"><span>VOLONTARI</span></div><div class="news-body"><small>ASSOCIAZIONE</small><h3>Entra nella nostra squadra</h3><p>Non solo donazione: puoi aiutarci anche nelle attività di volontariato e sensibilizzazione.</p><a href="#">Leggi di più →</a></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section" id="prenota">
+      <div class="container cta-inner">
+        <div><div class="eyebrow light">Fai il primo passo</div><h2>Vuoi diventare donatore?</h2><p>Lasciaci un messaggio e il Gruppo Fratres “Sorriso” Ferla ti ricontatterà con tutte le informazioni.</p></div>
+        <form class="mini-form" onsubmit="event.preventDefault(); document.getElementById('formMessage').textContent='Grazie! Questa è una demo: collegheremo il modulo a email/WhatsApp nella versione definitiva.';">
+          <input type="text" placeholder="Nome e cognome" required>
+          <input type="tel" placeholder="Telefono" required>
+          <button class="btn btn-dark" type="submit">Richiedi informazioni</button>
+          <small id="formMessage"></small>
+        </form>
       </div>
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="container footer-wrap">
-      <p>© <span id="year"></span> Gruppo Fratres “Sorriso” di Ferla</p>
-      <p>Volontariato • Donazione • Solidarietà</p>
+  <footer id="contatti">
+    <div class="container footer-grid">
+      <div><div class="footer-brand">FRATRES</div><h3>Gruppo “Sorriso” Ferla</h3><p>Donatori di sangue · Ferla (SR)</p></div>
+      <div><h4>Contatti</h4><p>Email: info@fratresferla.org</p><p>Telefono: da inserire</p><p>WhatsApp: da inserire</p></div>
+      <div><h4>Collegamenti</h4><a href="#home">Home</a><a href="#donare">Dona sangue</a><a href="#calendario">Calendario</a><a href="#news">News</a></div>
+      <div><h4>Seguici</h4><p>Facebook · Instagram</p><p class="small">Bozza grafica dimostrativa. Dati, date e riferimenti verranno aggiornati prima della pubblicazione.</p></div>
     </div>
+    <div class="container footer-bottom">© 2026 Gruppo Fratres “Sorriso” Ferla · Privacy · Cookie</div>
   </footer>
 
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="script.js"></script>
 </body>
 </html>
