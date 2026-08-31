@@ -1,3 +1,14 @@
+const welcomeGate = document.getElementById('welcomeGate');
+const enterSiteButton = document.getElementById('enterSite');
+
+if (welcomeGate && enterSiteButton) {
+  enterSiteButton.addEventListener('click', () => {
+    welcomeGate.classList.add('is-hidden');
+    document.body.classList.remove('welcome-open');
+    window.setTimeout(() => welcomeGate.remove(), 500);
+  });
+}
+
 const menuButton = document.querySelector('.menu-toggle');
 const mainNav = document.querySelector('.main-nav');
 
