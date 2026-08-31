@@ -10,12 +10,23 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body class="welcome-open">
+  <section class="welcome-gate" id="welcomeGate" aria-label="Benvenuto nel sito Fratres Ferla">
+    <div class="welcome-card">
+      <div class="welcome-mark" aria-hidden="true">F</div>
+      <div class="welcome-kicker">Gruppo Fratres “Sorriso” di Ferla</div>
+      <h1>Benvenuto nel nostro sito</h1>
+      <p>Informazioni, calendario delle donazioni, iniziative e servizi del Gruppo Fratres “Sorriso” di Ferla.</p>
+      <button class="btn welcome-button" id="enterSite" type="button">Accedi al sito</button>
+      <a class="welcome-email" href="mailto:gruppoferla@fratres.eu">gruppoferla@fratres.eu</a>
+    </div>
+  </section>
+
   <div class="topbar">
     <div class="container topbar-inner">
       <span>❤️ Donare sangue è un gesto che salva vite</span>
       <div class="topbar-links">
-        <a href="mailto:info@fratresferla.org">info@fratresferla.org</a>
+        <a href="mailto:gruppoferla@fratres.eu">gruppoferla@fratres.eu</a>
         <a href="#contatti">Contatti</a>
       </div>
     </div>
@@ -150,7 +161,7 @@
   <footer id="contatti">
     <div class="container footer-grid">
       <div><div class="footer-brand">FRATRES</div><h3>Gruppo “Sorriso” Ferla</h3><p>Donatori di sangue · Ferla (SR)</p></div>
-      <div><h4>Contatti</h4><p>Email: info@fratresferla.org</p><p>Telefono: da inserire</p><p>WhatsApp: da inserire</p></div>
+      <div><h4>Contatti</h4><p>Email: <a href="mailto:gruppoferla@fratres.eu">gruppoferla@fratres.eu</a></p><p>Telefono: da inserire</p><p>WhatsApp: da inserire</p></div>
       <div><h4>Collegamenti</h4><a href="#home">Home</a><a href="#donare">Dona sangue</a><a href="#calendario">Calendario</a><a href="#news">News</a></div>
       <div><h4>Seguici</h4><p>Facebook · Instagram</p><p class="small">Bozza grafica dimostrativa. Dati, date e riferimenti verranno aggiornati prima della pubblicazione.</p></div>
     </div>
