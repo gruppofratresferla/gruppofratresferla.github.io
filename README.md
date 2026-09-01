@@ -1,12 +1,9 @@
 # Gruppo Fratres “Sorriso” Ferla
 
-Sito ufficiale del Gruppo Fratres “Sorriso” di Ferla.
+Sito ufficiale pubblicato su GitHub Pages.
 
-## Stato progetto
-
-- GitHub Pages attivo
-- Home di benvenuto attiva
-- Logo nazionale Fratres integrato
-- Email ufficiale: gruppoferla@fratres.eu
-- Video YouTube integrato
-- Sviluppo in corso a partire dal backup originale del progetto
+- Schermata di benvenuto e homepage responsive
+- Logo ufficiale e immagine 5×1000 verificati
+- Calendario donazioni annuale
+- Servizio Civile: bando e graduatoria
+- Contatti, social, e-mail e indirizzo aggiornati
