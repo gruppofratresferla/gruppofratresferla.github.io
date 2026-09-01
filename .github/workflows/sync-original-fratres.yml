@@ -31,7 +31,9 @@ jobs:
           trap 'rm -f -- "$archive"; rm -rf -- "$stage"' EXIT
 
           cat .sync-parts/part-* | base64 --decode > "$archive"
-          printf '%s  %s\n'             '63ff03a288a0ef8c219deb7b4d3ed60ed25b9255d02a479fa786e19eba63b444'             "$archive" | sha256sum --check -
+          printf '%s  %s\n' \
+            '5981e0ceee3333af3062fa05e7c68334d7d975b81d3f11f17d0609beeffe7c8f' \
+            "$archive" | sha256sum --check -
 
           tar -xJf "$archive" -C "$stage"
 
@@ -48,7 +50,12 @@ jobs:
                   "logo-fratres-ufficiale.png",
               ],
               "calendario/index.html": ["Calendario"],
+              "calendario/2026/index.html": [
+                  "Calendario annuale",
+                  "calendario-donazioni-2026-social.png",
+              ],
               "servizio-civile/index.html": ["Servizio Civile", "Graduatoria"],
+              "404.html": ["Pagina non trovata"],
           }
 
           for relative, needles in checks.items():
@@ -60,7 +67,11 @@ jobs:
                   if needle not in text:
                       raise SystemExit(f"Contenuto mancante in {relative}: {needle}")
 
-          for image_name in ("logo-fratres-ufficiale.png", "5x1000-fratres-ferla.png"):
+          for image_name in (
+              "logo-fratres-ufficiale.png",
+              "5x1000-fratres-ferla.png",
+              "calendario-donazioni-2026-social.png",
+          ):
               data = (root / image_name).read_bytes()
               if len(data) < 1024 or not data.startswith(b"\x89PNG\r\n\x1a\n"):
                   raise SystemExit(f"Immagine non valida: {image_name}")
@@ -73,11 +84,13 @@ jobs:
 
           printf '' > "$stage/.nojekyll"
 
-          find . -mindepth 1 -maxdepth 1             ! -name ".git"             ! -name ".github"             ! -name ".sync-parts"             -exec rm -rf -- {} +
+          find . -mindepth 1 -maxdepth 1 \
+            ! -name ".git" \
+            ! -name ".github" \
+            ! -name ".sync-parts" \
+            -exec rm -rf -- {} +
 
           cp -a "$stage"/. .
-
-          printf '%s\n'             '# Gruppo Fratres “Sorriso” Ferla'             ''             'Sito ufficiale pubblicato su GitHub Pages.'             ''             '- Schermata di benvenuto e homepage responsive'             '- Logo ufficiale e immagine 5×1000 verificati'             '- Calendario donazioni annuale'             '- Servizio Civile: bando e graduatoria'             '- Contatti, social, e-mail e indirizzo aggiornati'             > README.md
 
       - name: Pubblica le modifiche
         shell: bash
