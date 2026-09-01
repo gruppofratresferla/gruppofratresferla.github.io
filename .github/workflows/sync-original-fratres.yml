@@ -1,75 +1,116 @@
-name: Sync original Fratres site
+name: Sincronizza il sito completo
 
 on:
-  push:
-    paths:
-      - '.github/workflows/sync-original-fratres.yml'
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/sync-original-fratres.yml"
 
 permissions:
   contents: write
 
+concurrency:
+  group: sincronizza-sito-fratres
+  cancel-in-progress: true
+
 jobs:
-  sync:
+  publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Scarica il repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Rebuild and verify original backup
+      - name: Prepara la versione completa del sito
         shell: bash
         run: |
           set -euo pipefail
-          EXPECTED_SHA="1f46f89d2dd8f99e60ff0839c42290910653e0367fe0eb6d9423eab33dbd9dcc"
-          ARCHIVE="$RUNNER_TEMP/original-exact.tar.xz"
-          B64="$RUNNER_TEMP/original-exact.b64"
-          : > "$B64"
-          for n in $(seq -w 0 21); do
-            f=".sync-parts/part-$n"
-            test -s "$f" || { echo "Manca $f"; exit 1; }
-            tr -d '\r\n' < "$f" >> "$B64"
+
+          origin="https://fratres-sorriso-ferla.giuseppe-malignaggi1.chatgpt.site"
+          stage="$(mktemp -d)"
+          trap 'rm -rf -- "$stage"' EXIT
+
+          download() {
+            local remote_path="$1"
+            local local_path="$2"
+            mkdir -p "$(dirname "$stage/$local_path")"
+            curl --fail --silent --show-error --location               --retry 4 --retry-all-errors               "$origin$remote_path"               --output "$stage/$local_path"
+          }
+
+          download "/" "index.html"
+          download "/calendario" "calendario/index.html"
+          download "/calendario/2026" "calendario/2026/index.html"
+          download "/servizio-civile" "servizio-civile/index.html"
+
+          download "/index.rsc" "index.rsc"
+          download "/calendario.rsc" "calendario.rsc"
+          download "/calendario/2026.rsc" "calendario/2026.rsc"
+          download "/servizio-civile.rsc" "servizio-civile.rsc"
+
+          download "/logo-fratres-ufficiale.png" "logo-fratres-ufficiale.png"
+          download "/5x1000-fratres-ferla.png" "5x1000-fratres-ferla.png"
+          download "/favicon.svg" "favicon.svg"
+          download "/file.svg" "file.svg"
+          download "/globe.svg" "globe.svg"
+          download "/window.svg" "window.svg"
+
+          mapfile -t site_assets < <(
+            grep -RhoE '/assets/[A-Za-z0-9._-]+'               "$stage/index.html"               "$stage/calendario/index.html"               "$stage/calendario/2026/index.html"               "$stage/servizio-civile/index.html"               "$stage"/*.rsc               "$stage/calendario"/*.rsc               2>/dev/null | sort -u
+          )
+
+          for asset in "${site_assets[@]}"; do
+            relative_path="$(printf '%s' "$asset" | sed 's#^/##')"
+            download "$asset" "$relative_path"
           done
-          base64 --decode "$B64" > "$ARCHIVE"
-          echo "$EXPECTED_SHA  $ARCHIVE" | sha256sum --check -
 
-      - name: Extract verified original project
+          python3 - "$stage" <<'PY'
+          from pathlib import Path
+          import sys
+
+          root = Path(sys.argv[1])
+          checks = {
+              "index.html": ["Un piccolo gesto", "gruppoferla@fratres.eu", "JME4geaKC4E"],
+              "calendario/index.html": ["Calendario"],
+              "servizio-civile/index.html": ["Servizio Civile", "Graduatoria"],
+          }
+          for relative, needles in checks.items():
+              text = (root / relative).read_text(encoding="utf-8")
+              for needle in needles:
+                  if needle not in text:
+                      raise SystemExit(f"Contenuto mancante in {relative}: {needle}")
+
+          for image_name in ("logo-fratres-ufficiale.png", "5x1000-fratres-ferla.png"):
+              data = (root / image_name).read_bytes()
+              if len(data) < 1024 or not data.startswith(b"\x89PNG\r\n\x1a\n"):
+                  raise SystemExit(f"Immagine non valida: {image_name}")
+
+          if not list((root / "assets").glob("*.css")):
+              raise SystemExit("Foglio di stile mancante")
+          if not list((root / "assets").glob("*.js")):
+              raise SystemExit("JavaScript mancante")
+          PY
+
+          printf '' > "$stage/.nojekyll"
+          printf '%s\n' '<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=/">' > "$stage/404.html"
+
+          find . -mindepth 1 -maxdepth 1             ! -name ".git"             ! -name ".github"             -exec rm -rf -- {} +
+
+          cp -a "$stage"/. .
+
+          printf '%s\n'             '# Gruppo Fratres “Sorriso” Ferla'             ''             'Sito ufficiale pubblicato su GitHub Pages.'             ''             '- Homepage professionale e responsive'             '- Calendario donazioni annuale'             '- Sezione Servizio Civile con bando e graduatoria'             '- Contatti, social, e-mail e indirizzo aggiornati'             '- Logo ufficiale e immagine 5×1000 inclusi'             > README.md
+
+      - name: Pubblica le modifiche
         shell: bash
         run: |
           set -euo pipefail
-          DEST="$RUNNER_TEMP/fratres-original"
-          mkdir -p "$DEST"
-          tar -xJf "$RUNNER_TEMP/original-exact.tar.xz" -C "$DEST"
-          test -s "$DEST/index.html"
-          test -s "$DEST/calendario/index.html"
-          test -s "$DEST/calendario/2026/index.html"
-          test -s "$DEST/servizio-civile/index.html"
-          test -s "$DEST/logo-fratres-ufficiale.png"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add --all
 
-      - name: Replace published files only after verification
-        shell: bash
-        run: |
-          set -euo pipefail
-          DEST="$RUNNER_TEMP/fratres-original"
-          find . -mindepth 1 -maxdepth 1 \
-            ! -name '.git' \
-            ! -name '.github' \
-            -exec rm -rf {} +
-          cp -a "$DEST"/. .
-
-      - name: Commit synchronized project
-        shell: bash
-        run: |
-          set -euo pipefail
-          git config user.name "Fratres Ferla Site Sync"
-          git config user.email "actions@users.noreply.github.com"
-          git add -A
           if git diff --cached --quiet; then
-            echo "Il repository è già allineato."
+            echo "Il sito è già aggiornato."
             exit 0
           fi
-          git commit -m "Pubblica il progetto Fratres originale verificato"
-          git push origin HEAD:main
 
-# verifica completa 22/22
+          git commit -m "Pubblica il sito Fratres completo allineato"
+          git push
