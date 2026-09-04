@@ -2,10 +2,15 @@
 @media (max-width: 768px) {
   html {
     scroll-behavior: auto;
+    overflow-y: auto !important;
+    height: auto !important;
   }
 
   body {
-    overflow-x: clip;
+    overflow-x: hidden;
+    overflow-y: auto !important;
+    height: auto !important;
+    position: static !important;
     -webkit-overflow-scrolling: touch;
   }
 
@@ -42,12 +47,9 @@
     touch-action: pan-y;
   }
 
-  .section,
-  .calendarTeaser,
-  .calendarBoardSection,
-  footer {
-    content-visibility: auto;
-    contain-intrinsic-size: auto 720px;
+  .welcomeGate {
+    position: absolute !important;
+    min-height: 100svh;
   }
 }
 
