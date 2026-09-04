@@ -2,16 +2,33 @@
 @media (max-width: 1024px), (hover: none) and (pointer: coarse) {
   html {
     scroll-behavior: auto;
+    overflow-x: hidden !important;
     overflow-y: auto !important;
     height: auto !important;
+    min-height: 100% !important;
+    overscroll-behavior-y: auto;
+    touch-action: pan-y;
   }
 
   body {
-    overflow-x: hidden;
+    overflow-x: hidden !important;
     overflow-y: auto !important;
     height: auto !important;
+    min-height: 100% !important;
+    max-height: none !important;
     position: static !important;
     -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: auto;
+    touch-action: pan-y;
+  }
+
+  body > main {
+    position: relative !important;
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 100% !important;
+    max-height: none !important;
+    touch-action: pan-y;
   }
 
   .siteHeader {
@@ -45,6 +62,36 @@
   .videoPlayer,
   .videoPlayer iframe {
     touch-action: pan-y;
+  }
+
+  #manifesto,
+  .featuredEventSection,
+  .featuredEventGrid,
+  .featuredEventPoster,
+  .featuredEventCopy,
+  .eventsSection,
+  .eventGrid,
+  .donationOptions,
+  .donationCard,
+  .donationContent,
+  .calendarPage,
+  .calendarLayout,
+  .calendarMain,
+  .calendarAside {
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    contain: none !important;
+    touch-action: pan-y;
+  }
+
+  #manifesto {
+    scroll-margin-top: 84px;
+  }
+
+  .featuredEventPoster {
+    transform: none !important;
   }
 
   .welcomeGate {
