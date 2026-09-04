@@ -1,0 +1,48 @@
+.eventsSection {
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.16) 0 8%, transparent 32%),
+    radial-gradient(circle at 90% 82%, rgba(87, 0, 20, 0.28) 0 12%, transparent 38%),
+    linear-gradient(135deg, #9f0923 0%, #d81835 52%, #b50b29 100%);
+}
+
+.eventsSection .sectionKicker,
+.eventsSection .rowHeading h2,
+.eventsSection .rowHeading .textLink {
+  color: #fff;
+}
+
+.eventsSection .rowHeading .textLink {
+  border-bottom-color: rgba(255, 255, 255, 0.55);
+}
+
+.eventsSection .eventFeatured {
+  color: var(--dark);
+  background: linear-gradient(145deg, #fff 0%, #fff7f8 100%);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  box-shadow: 0 24px 55px rgba(75, 0, 18, 0.28);
+}
+
+.eventsSection .eventFeatured .dateBadge {
+  color: #fff;
+  background: var(--red);
+  box-shadow: 0 12px 26px rgba(216, 24, 53, 0.25);
+}
+
+.eventsSection .eventFeatured .tag,
+.eventsSection .eventFeatured a {
+  color: var(--red);
+}
+
+.eventsSection .eventFeatured p:not(.tag) {
+  color: #555963;
+  opacity: 1;
+}
+
+.eventsSection .eventSmall {
+  color: var(--dark);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 20px 45px rgba(75, 0, 18, 0.2);
+}
