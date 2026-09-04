@@ -21,22 +21,27 @@
     document.body.style.removeProperty("width");
   };
 
+  const placeTarget = (target) => {
+    const header = document.querySelector(".siteHeader");
+    const headerHeight = header ? header.getBoundingClientRect().height : 0;
+    const top = target.getBoundingClientRect().top + window.scrollY - headerHeight - 12;
+    window.scrollTo(0, Math.max(0, top));
+  };
+
   const scrollToHash = (hash, updateAddress = true) => {
     const target = document.getElementById(decodeURIComponent(hash.slice(1)));
     if (!target) return;
 
     unlockScroll();
     if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
+    placeTarget(target);
+    if (updateAddress) history.replaceState(null, "", hash);
 
-    window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => {
-        unlockScroll();
-        target.scrollIntoView({ behavior: "auto", block: "start" });
-        if (updateAddress) history.replaceState(null, "", hash);
-        window.setTimeout(unlockScroll, 100);
-        window.setTimeout(unlockScroll, 500);
-      });
-    });
+    window.setTimeout(() => {
+      unlockScroll();
+      placeTarget(target);
+    }, 80);
+    window.setTimeout(unlockScroll, 350);
   };
 
   const handleClick = (event) => {
@@ -70,17 +75,7 @@
     unlockScroll();
     if (window.location.hash) scrollToHash(window.location.hash, false);
   });
-  document.addEventListener("click", handleClick, { passive: false });
-
-  const observer = new MutationObserver(() => {
-    unlockScroll();
-  });
-  observer.observe(document.body, {
-    attributes: true,
-    attributeFilter: ["style"],
-    childList: true,
-    subtree: false
-  });
+  document.addEventListener("click", handleClick, { passive: false, capture: true });
 
   [250, 800, 1600].forEach((delay) => window.setTimeout(unlockScroll, delay));
 })();
