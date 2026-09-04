@@ -1,0 +1,62 @@
+/* Mobile performance overrides: preserve the design while reducing paint work. */
+@media (max-width: 768px) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  body {
+    overflow-x: clip;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .siteHeader {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    background: #fff !important;
+  }
+
+  .heroGlow,
+  .orbit,
+  .heroWave {
+    display: none !important;
+  }
+
+  .bigDrop,
+  .floatingCard,
+  .videoPlayer,
+  .featuredEventPoster,
+  .calendarEventPoster,
+  .calendarAside,
+  .eventGrid article,
+  .donationCard,
+  .quickAccessCard {
+    box-shadow: none !important;
+  }
+
+  .calendarAside {
+    position: static !important;
+  }
+
+  .videoPlayer,
+  .videoPlayer iframe {
+    touch-action: pan-y;
+  }
+
+  .section,
+  .calendarTeaser,
+  .calendarBoardSection,
+  footer {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 720px;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .button,
+  .quickAccessCard,
+  .civilHomeLinks > a,
+  .donationCard summary > b,
+  .menuToggle span {
+    transition: none !important;
+  }
+}
