@@ -1,5 +1,5 @@
 /* Mobile performance overrides: preserve the design while reducing paint work. */
-@media (max-width: 1024px), (hover: none) and (pointer: coarse) {
+@media (max-width: 1024px) {
   html {
     scroll-behavior: auto;
     overflow-x: hidden !important;
